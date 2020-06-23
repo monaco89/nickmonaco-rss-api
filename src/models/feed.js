@@ -19,6 +19,10 @@ export const FeedSchema = new Schema(
       trim: true,
       required: true,
     },
+    enabled: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     collection: 'feeds',
