@@ -7,7 +7,8 @@ export const FeedSchema = new Schema(
     user: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
+      // TODO
+      //  required: false,
     },
     name: {
       type: String,
@@ -18,6 +19,10 @@ export const FeedSchema = new Schema(
       type: String,
       trim: true,
       required: true,
+    },
+    icon: {
+      type: String,
+      trim: true,
     },
     enabled: {
       type: Boolean,
