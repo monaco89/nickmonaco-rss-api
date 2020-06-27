@@ -1,20 +1,23 @@
-import { UserTC } from '../models/user';
+import { gql } from 'apollo-server-express';
 
-const UserQuery = {
-  userById: UserTC.getResolver('findById'),
-  userByIds: UserTC.getResolver('findByIds'),
-  userOne: UserTC.getResolver('findOne'),
-  userMany: UserTC.getResolver('findMany'),
-  userCount: UserTC.getResolver('count'),
-  userConnection: UserTC.getResolver('pagination'),
-};
+export default gql`
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+    feeds: [Feed!]
+  }
 
-const UserMutation = {
-  userCreateOne: UserTC.getResolver('createOne'),
-  userUpdateById: UserTC.getResolver('updateById'),
-  userUpdateOne: UserTC.getResolver('updateOne'),
-  userUpdateMany: UserTC.getResolver('updateMany'),
-  userRemoveById: UserTC.getResolver('removeById'),
-};
+  type Token {
+    token: String!
+  }
 
-export { UserQuery, UserMutation };
+  extend type Query {
+    user(id: ID!): User!
+    login(email: String!, password: String!): Token!
+  }
+
+  extend type Mutation {
+    createUser(name: String!, email: String!, password: String!): Token!
+  }
+`;

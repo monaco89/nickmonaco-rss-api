@@ -1,20 +1,14 @@
-import { SchemaComposer } from 'graphql-compose';
+import userSchema from './user';
+import feedSchema from './feed';
+import { gql } from 'apollo-server';
 
-import db from '../utils/db'; // eslint-disable-line no-unused-vars
+const linkSchema = gql`
+  type Query {
+    _: Boolean
+  }
+  type Mutation {
+    _: Boolean
+  }
+`;
 
-const schemaComposer = new SchemaComposer();
-
-import { UserQuery, UserMutation } from './user';
-import { FeedQuery, FeedMutation } from './feed';
-
-schemaComposer.Query.addFields({
-  ...UserQuery,
-  ...FeedQuery,
-});
-
-schemaComposer.Mutation.addFields({
-  ...UserMutation,
-  ...FeedMutation,
-});
-
-export default schemaComposer.buildSchema();
+export default [linkSchema, userSchema, feedSchema];

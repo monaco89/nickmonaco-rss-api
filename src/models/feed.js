@@ -1,6 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
 import timestamps from 'mongoose-timestamp';
-import { composeWithMongoose } from 'graphql-compose-mongoose';
 
 export const FeedSchema = new Schema(
   {
@@ -8,7 +7,7 @@ export const FeedSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
       // TODO
-      //  required: false,
+      required: true,
     },
     name: {
       type: String,
@@ -38,5 +37,6 @@ FeedSchema.plugin(timestamps);
 
 FeedSchema.index({ createdAt: 1, updatedAt: 1 });
 
-export const Feed = mongoose.model('Feed', FeedSchema);
-export const FeedTC = composeWithMongoose(Feed);
+const Feed = mongoose.model('Feed', FeedSchema);
+
+export default Feed;

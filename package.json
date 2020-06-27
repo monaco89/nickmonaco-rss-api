@@ -6,14 +6,12 @@
   "author": "Nick Monaco",
   "license": "MIT",
   "scripts": {
-    "build": "babel src --out-dir dist",
-    "start": "node dist/index.js",
-    "dev": "nodemon --exec npx babel-node src/index.js",
+    "build": "yarn prebuild && babel -d ./build ./src",
+    "prebuild": "rm -rf build && mkdir build",
+    "start": "nodemon --exec npx babel-node src/index.js",
     "prettier": "prettier --config ./.prettierrc --write \"**/*.js\"",
     "pretest": "eslint --ignore-path .gitignore .",
-    "postinstall": "rm -rf dist && yarn run build",
-    "lint": "yarn prettier --write --check --config ./.prettierrc \"**/*.js\" && eslint --fix ./src",
-    "release": "release-it patch --no-npm.publish"
+    "lint": "yarn prettier --write --check --config ./.prettierrc \"**/*.js\" && eslint --fix ./src"
   },
   "husky": {
     "hooks": {
@@ -21,24 +19,20 @@
     }
   },
   "dependencies": {
-    "@babel/cli": "^7.10.3",
     "@babel/core": "^7.10.3",
     "@babel/node": "^7.10.3",
     "@babel/preset-env": "^7.10.3",
-    "apollo-engine": "^1.1.2",
+    "apollo-server": "^2.15.0",
     "apollo-server-express": "^2.15.0",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "graphql": "^15.1.0",
-    "graphql-compose": "^7.18.1",
-    "graphql-compose-connection": "^6.2.1",
-    "graphql-compose-mongoose": "^7.3.8",
-    "graphql-middleware": "^4.0.2",
-    "graphql-tools": "^6.0.10",
+    "graphql-resolvers": "^0.4.2",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.19",
-    "mongoose-bcrypt": "^1.8.0",
     "mongoose-timestamp": "^0.6.0"
   },
   "devDependencies": {

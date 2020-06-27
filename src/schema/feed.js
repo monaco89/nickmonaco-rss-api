@@ -1,24 +1,21 @@
-import { Feed, FeedTC } from '../models/feed';
+import { gql } from 'apollo-server-express';
 
-const FeedQuery = {
-  feedById: FeedTC.getResolver('findById'),
-  feedByIds: FeedTC.getResolver('findByIds'),
-  feedOne: FeedTC.getResolver('findOne'),
-  feedMany: FeedTC.getResolver('findMany'),
-  feedCount: FeedTC.getResolver('count'),
-  feedConnection: FeedTC.getResolver('connection'),
-  feedPagination: FeedTC.getResolver('pagination'),
-};
+export default gql`
+  type Feed {
+    id: ID!
+    name: String
+    rss: String
+    icon: String
+    enabled: Boolean
+    user: User!
+  }
 
-const FeedMutation = {
-  feedCreateOne: FeedTC.getResolver('createOne'),
-  feedCreateMany: FeedTC.getResolver('createMany'),
-  feedUpdateById: FeedTC.getResolver('updateById'),
-  feedUpdateOne: FeedTC.getResolver('updateOne'),
-  feedUpdateMany: FeedTC.getResolver('updateMany'),
-  feedRemoveById: FeedTC.getResolver('removeById'),
-  feedRemoveOne: FeedTC.getResolver('removeOne'),
-  feedRemoveMany: FeedTC.getResolver('removeMany'),
-};
+  extend type Query {
+    feeds: [Feed!]
+    feed(id: ID!): Feed!
+  }
 
-export { FeedQuery, FeedMutation };
+  extend type Mutation {
+    createFeed(name: String!, rss: String!, icon: String!): Feed!
+  }
+`;
