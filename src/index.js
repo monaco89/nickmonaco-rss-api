@@ -32,7 +32,7 @@ const getUser = async (req) => {
 const server = new ApolloServer({
   typeDefs: schemas,
   resolvers,
-  playground: process.env.NODE_ENV === 'development' ? true : false,
+  playground: process.env.NODE_ENV === 'dev' ? true : false,
   context: async ({ req, context }) => {
     context.callbackWaitsForEmptyEventLoop = false;
     if (req) {
@@ -87,7 +87,9 @@ connectToDatabase(process.env.PROD_MONGODB_URI).then((db) => console.log(`connec
 exports.graphqlHandler = server.createHandler({
   cors: {
     origin: originDomain,
-    credentials: false,
+    credentials: true,
+    methods: 'POST, GET, OPTIONS',
+    allowedHeaders: ['Content-Type', 'x-token', 'Authorization'],
   },
   endpointURL: '/graphql',
 });
