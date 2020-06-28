@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
-import { ApolloServer, AuthenticationError } from 'apollo-server-lambda';
+import { ApolloServer, AuthenticationError } from 'apollo-server';
 
 import schemas from './schemas';
 import resolvers from './resolvers';
@@ -12,8 +12,6 @@ import userModel from './models/user';
 import feedModel from './models/feed';
 
 dotenv.config();
-
-let originDomain = '*';
 
 const app = express();
 app.use(cors());
@@ -49,28 +47,26 @@ const server = new ApolloServer({
   },
 });
 
-// const connection = mongoose.connect(process.env.MONGODB_URI, {
-//   autoIndex: true,
-//   reconnectTries: Number.MAX_VALUE,
-//   reconnectInterval: 500,
-//   poolSize: 50,
-//   bufferMaxEntries: 0,
-//   keepAlive: 120,
-//   useNewUrlParser: true,
-// });
+server.applyMiddleware({ app, path: '/graphql' });
 
-// mongoose.set('useCreateIndex', true);
+const connection = mongoose.connect(process.env.MONGODB_URI, {
+  autoIndex: true,
+  reconnectTries: Number.MAX_VALUE,
+  reconnectInterval: 500,
+  poolSize: 50,
+  bufferMaxEntries: 0,
+  keepAlive: 120,
+  useNewUrlParser: true,
+});
 
-// connection
-//   .then((db) => db)
-//   .catch((err) => {
-//     console.log(err);
-//   });
+mongoose.set('useCreateIndex', true);
 
-exports.graphqlHandler = server.createHandler({
-  cors: {
-    origin: originDomain,
-    credentials: false,
-  },
-  endpointURL: '/graphql',
+connection
+  .then((db) => db)
+  .catch((err) => {
+    console.log(err);
+  });
+
+app.listen({ port: process.env.PORT }, () => {
+  console.log(`🚀 Server listening on port ${process.env.PORT}/graphql`);
 });

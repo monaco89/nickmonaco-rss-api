@@ -9,6 +9,7 @@
     "build": "yarn prebuild && babel -d ./build ./src",
     "prebuild": "rm -rf build && mkdir build",
     "start": "nodemon --exec npx babel-node src/index.js",
+    "dev": "nodemon --exec npx babel-node src/local.js",
     "prettier": "prettier --config ./.prettierrc --write \"**/*.js\"",
     "pretest": "eslint --ignore-path .gitignore .",
     "lint": "yarn prettier --write --check --config ./.prettierrc \"**/*.js\" && eslint --fix ./src"
@@ -23,7 +24,7 @@
     "@babel/node": "^7.10.3",
     "@babel/preset-env": "^7.10.3",
     "apollo-server": "^2.15.0",
-    "apollo-server-express": "^2.15.0",
+    "apollo-server-lambda": "^2.15.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
