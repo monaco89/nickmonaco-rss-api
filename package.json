@@ -8,8 +8,8 @@
   "scripts": {
     "build": "yarn prebuild && babel -d ./build ./src",
     "prebuild": "rm -rf build && mkdir build",
-    "start": "nodemon --exec npx babel-node src/index.js",
-    "dev": "nodemon --exec npx babel-node src/local.js",
+    "start": "nodemon --exec npx babel-node index.js",
+    "dev": "nodemon --exec npx babel-node local.js",
     "prettier": "prettier --config ./.prettierrc --write \"**/*.js\"",
     "pretest": "eslint --ignore-path .gitignore .",
     "lint": "yarn prettier --write --check --config ./.prettierrc \"**/*.js\" && eslint --fix ./src"
