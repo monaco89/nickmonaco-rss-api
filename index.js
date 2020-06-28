@@ -85,28 +85,28 @@ function connectToDatabase(uri) {
     });
 }
 
-// connectToDatabase(process.env.PROD_MONGODB_URI).then((db) => console.log(`connected to db`));
+connectToDatabase(process.env.PROD_MONGODB_URI).then((db) => console.log(`connected to db`));
 
-const connection = mongoose.connect(process.env.PROD_MONGODB_URI, {
-  autoIndex: true,
-  reconnectTries: Number.MAX_VALUE,
-  reconnectInterval: 500,
-  poolSize: 50,
-  bufferMaxEntries: 0,
-  keepAlive: 120,
-  useNewUrlParser: true,
-});
+// const connection = mongoose.connect(process.env.PROD_MONGODB_URI, {
+//   autoIndex: true,
+//   reconnectTries: Number.MAX_VALUE,
+//   reconnectInterval: 500,
+//   poolSize: 50,
+//   bufferMaxEntries: 0,
+//   keepAlive: 120,
+//   useNewUrlParser: true,
+// });
 
-mongoose.set('useCreateIndex', true);
+// mongoose.set('useCreateIndex', true);
 
-connection
-  .then((db) => {
-    cachedDb = db;
-    return cachedDb;
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// connection
+//   .then((db) => {
+//     cachedDb = db;
+//     return cachedDb;
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 exports.graphqlHandler = server.createHandler({
   cors: {
