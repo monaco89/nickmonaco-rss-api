@@ -1,6 +1,4 @@
-org: nickmonaco
-app: nickmonaco-rss-api
-service: apollo-lambda
+service: nickmonaco-rss-api
 provider:
   name: aws
   runtime: nodejs10.x
