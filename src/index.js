@@ -1,6 +1,4 @@
-import cors from 'cors';
 import dotenv from 'dotenv';
-import express from 'express';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import { ApolloServer, AuthenticationError } from 'apollo-server-lambda';
@@ -14,9 +12,6 @@ import feedModel from './models/feed';
 dotenv.config();
 
 let originDomain = '*';
-
-const app = express();
-app.use(cors());
 
 const getUser = async (req) => {
   const token = req.headers['x-token'];
@@ -88,11 +83,11 @@ function connectToDatabase(uri) {
 connectToDatabase(process.env.PROD_MONGODB_URI).then((db) => console.log(`connected to db`));
 
 exports.graphqlHandler = server.createHandler({
-  cors: {
-    origin: originDomain,
-    credentials: true,
-    methods: 'POST, GET, OPTIONS',
-    allowedHeaders: ['Content-Type', 'X-Amz-Date', 'Authorization', 'X-Api-Key', 'X-Amz-Security-Token'],
-  },
+  // cors: {
+  //   origin: originDomain,
+  //   credentials: true,
+  //   methods: 'POST, GET, OPTIONS',
+  //   allowedHeaders: ['Content-Type', 'X-Amz-Date', 'Authorization', 'X-Api-Key', 'X-Amz-Security-Token'],
+  // },
   endpointURL: '/graphql',
 });

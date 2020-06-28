@@ -1,4 +1,3 @@
-import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import jwt from 'jsonwebtoken';
@@ -14,7 +13,6 @@ import feedModel from './models/feed';
 dotenv.config();
 
 const app = express();
-app.use(cors());
 
 const getUser = async (req) => {
   const token = req.headers['x-token'];
