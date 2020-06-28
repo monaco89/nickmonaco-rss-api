@@ -1,4 +1,4 @@
-// import dotenv from 'dotenv';
+import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import { ApolloServer, AuthenticationError } from 'apollo-server-lambda';
@@ -9,7 +9,7 @@ import resolvers from './src/resolvers';
 import userModel from './src/models/user';
 import feedModel from './src/models/feed';
 
-// dotenv.config();
+dotenv.config();
 
 let originDomain = '*';
 
