@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import { ApolloServer, AuthenticationError } from 'apollo-server-lambda';
@@ -9,7 +9,7 @@ import resolvers from './src/resolvers';
 import userModel from './src/models/user';
 import feedModel from './src/models/feed';
 
-dotenv.config();
+// dotenv.config();
 
 let originDomain = '*';
 
@@ -55,7 +55,7 @@ const server = new ApolloServer({
 
 let cachedDb = null;
 
-function connectToDatabase(uri) {
+function connectToDatabase() {
   console.log('=> connect to database');
 
   if (cachedDb) {
@@ -63,7 +63,7 @@ function connectToDatabase(uri) {
     return Promise.resolve(cachedDb);
   }
 
-  const connection = mongoose.connect(uri, {
+  const connection = mongoose.connect(process.env.PROD_MONGODB_URI, {
     autoIndex: true,
     reconnectTries: Number.MAX_VALUE,
     reconnectInterval: 500,
@@ -85,28 +85,7 @@ function connectToDatabase(uri) {
     });
 }
 
-connectToDatabase(process.env.PROD_MONGODB_URI).then((db) => console.log(`connected to db`));
-
-// const connection = mongoose.connect(process.env.PROD_MONGODB_URI, {
-//   autoIndex: true,
-//   reconnectTries: Number.MAX_VALUE,
-//   reconnectInterval: 500,
-//   poolSize: 50,
-//   bufferMaxEntries: 0,
-//   keepAlive: 120,
-//   useNewUrlParser: true,
-// });
-
-// mongoose.set('useCreateIndex', true);
-
-// connection
-//   .then((db) => {
-//     cachedDb = db;
-//     return cachedDb;
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
+connectToDatabase().then((db) => console.log(`connected to db`));
 
 exports.graphqlHandler = server.createHandler({
   cors: {
