@@ -5,6 +5,7 @@ import { AuthenticationError } from 'apollo-server';
 export default {
   Query: {
     user: async (parent, { id }, { models: { userModel }, me }, info) => {
+      // ? Reason for being authenticated first
       if (!me) {
         throw new AuthenticationError('You are not authenticated');
       }
@@ -35,7 +36,7 @@ export default {
     createUser: async (parent, { name, email, password }, { models: { userModel }, secret }, info) => {
       const user = await userModel.create({ name, email, password });
       const token = jwt.sign({ id: user.id }, secret, { expiresIn: 24 * 10 * 50 });
-      return token;
+      return { token };
     },
   },
   User: {

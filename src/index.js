@@ -8,8 +8,8 @@ import { ApolloServer, AuthenticationError } from 'apollo-server-express';
 import schemas from './schemas';
 import resolvers from './resolvers';
 
-import userModel from './models/userModel';
-import feedModel from './models/feedModel';
+import userModel from './models/user';
+import feedModel from './models/feed';
 
 dotenv.config();
 
