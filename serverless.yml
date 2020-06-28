@@ -4,7 +4,7 @@ service: nickmonaco-rss-api
 plugins:
   - serverless-webpack
   - serverless-offline
-  # - serverless-dotenv-plugin
+  - serverless-plugin-warmup
 
 # serverless-webpack configuration
 # Enable auto-packing of external modules
@@ -12,6 +12,12 @@ custom:
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
+    warmup:
+      enabled: true
+      prewarm: true
+      name: ${self:service}-lambda-warmer
+      concurrency: 1
+
 provider:
   name: aws
   runtime: nodejs10.x
@@ -28,4 +34,8 @@ functions:
       - http:
           path: graphql
           method: any
+          cors: true
+      - http:
+          path: playground
+          method: get
           cors: true
