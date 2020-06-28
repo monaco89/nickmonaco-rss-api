@@ -6,7 +6,7 @@ let cachedConnection = null;
 function initConnection() {
   if (cachedConnection === null) {
     return mongoose
-      .createConnection(process.env.PROD_MONGO_URI, {
+      .createConnection(process.env.PROD_MONGODB_URI, {
         bufferCommands: false,
         bufferMaxEntries: 0,
         useNewUrlParser: true,
