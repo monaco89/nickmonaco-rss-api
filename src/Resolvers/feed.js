@@ -15,7 +15,7 @@ export default {
       if (!me) {
         throw new AuthenticationError('You are not authenticated');
       }
-      const feeds = await feedModel.find({ author: me.id }).exec();
+      const feeds = await feedModel.find({ user: me.id }).exec();
       return feeds;
     },
   },

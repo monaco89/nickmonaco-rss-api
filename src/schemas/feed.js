@@ -10,12 +10,18 @@ export default gql`
     user: User!
   }
 
+  input CreateFeedInput {
+    name: String!
+    rss: String!
+    icon: String!
+  }
+
   extend type Query {
     feeds: [Feed!]
     feed(id: ID!): Feed!
   }
 
   extend type Mutation {
-    createFeed(name: String!, rss: String!, icon: String!): Feed!
+    createFeed(input: CreateFeedInput!): Feed!
   }
 `;
