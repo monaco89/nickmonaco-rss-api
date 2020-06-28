@@ -32,7 +32,10 @@ const getUser = async (req) => {
 const server = new ApolloServer({
   typeDefs: schemas,
   resolvers,
-  playground: process.env.NODE_ENV === 'dev' ? true : false,
+  // playground: process.env.NODE_ENV === 'dev' ? true : false,
+  playground: {
+    endpoint: '/dev/graphql',
+  },
   context: async ({ req, context }) => {
     context.callbackWaitsForEmptyEventLoop = false;
     if (req) {
@@ -89,7 +92,7 @@ exports.graphqlHandler = server.createHandler({
     origin: originDomain,
     credentials: true,
     methods: 'POST, GET, OPTIONS',
-    allowedHeaders: ['Content-Type', 'x-token', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'X-Amz-Date', 'Authorization', 'X-Api-Key', 'X-Amz-Security-Token'],
   },
   endpointURL: '/graphql',
 });
