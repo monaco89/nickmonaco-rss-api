@@ -27,9 +27,13 @@ const getUser = async (req) => {
 const server = new ApolloServer({
   typeDefs: schemas,
   resolvers,
+  introspection: true,
   // playground: process.env.NODE_ENV === 'dev' ? true : false,
   playground: {
     endpoint: '/dev/graphql',
+    settings: {
+      'request.credentials': 'same-origin',
+    },
   },
   context: async ({ req, context }) => {
     context.callbackWaitsForEmptyEventLoop = false;
@@ -83,11 +87,15 @@ function connectToDatabase(uri) {
 connectToDatabase(process.env.PROD_MONGODB_URI).then((db) => console.log(`connected to db`));
 
 exports.graphqlHandler = server.createHandler({
+  cors: {
+    origin: '*',
+    credentials: true,
+  },
   // cors: {
   //   origin: originDomain,
   //   credentials: true,
   //   methods: 'POST, GET, OPTIONS',
-  //   allowedHeaders: ['Content-Type', 'X-Amz-Date', 'Authorization', 'X-Api-Key', 'X-Amz-Security-Token'],
+  //   allowedHeaders: ['Content-Type', 'X-Amz-Date', 'Authorization', 'X-Api-Key', 'X-Amz-Security-Token', 'x-token'],
   // },
-  endpointURL: '/graphql',
+  // endpointURL: '/graphql',
 });
