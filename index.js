@@ -3,11 +3,11 @@ import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import { ApolloServer, AuthenticationError } from 'apollo-server-lambda';
 
-import schemas from './schemas';
-import resolvers from './resolvers';
+import schemas from './src/schemas';
+import resolvers from './src/resolvers';
 
-import userModel from './models/user';
-import feedModel from './models/feed';
+import userModel from './src/models/user';
+import feedModel from './src/models/feed';
 
 dotenv.config();
 
