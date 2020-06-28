@@ -9,7 +9,7 @@ phases:
       - yarn global add serverless
   build:
     commands:
-      - echo ${env:PROD_MONGODB_URI}
+      - echo $PROD_MONGODB_URI
       - sls deploy
 cache:
   paths:

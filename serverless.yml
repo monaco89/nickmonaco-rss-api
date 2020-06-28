@@ -15,11 +15,13 @@ custom:
 provider:
   name: aws
   runtime: nodejs10.x
+  timeout: 60 # optional, in seconds, default is 6
+  versionFunctions: false
+  environment:
+    SECRET: ${env:SECRET}
+    PROD_MONGODB_URI: ${env:PROD_MONGODB_URI}
 functions:
   graphql:
-    environment:
-      SECRET: ${env:SECRET}
-      PROD_MONGODB_URI: ${env:PROD_MONGODB_URI}
     # this is formatted as <FILENAME>.<HANDLER>
     handler: index.graphqlHandler
     events:
