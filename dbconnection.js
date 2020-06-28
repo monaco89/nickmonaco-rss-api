@@ -25,4 +25,4 @@ function initConnection() {
   }
 }
 
-module.exports = { initConnection };
+export default initConnection;

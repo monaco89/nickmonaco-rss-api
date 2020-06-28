@@ -1,5 +1,5 @@
-import { server } from './server';
-import { initConnection } from './dbconnection';
+import server from './server';
+import initConnection from './dbconnection';
 
 let originDomain = '*';
 
