@@ -33,7 +33,8 @@ const server = new ApolloServer({
   typeDefs: schemas,
   resolvers,
   playground: process.env.NODE_ENV === 'development' ? true : false,
-  context: async ({ req }) => {
+  context: async ({ req, context }) => {
+    context.callbackWaitsForEmptyEventLoop = false;
     if (req) {
       const me = await getUser(req);
 
@@ -49,23 +50,39 @@ const server = new ApolloServer({
   },
 });
 
-const connection = mongoose.connect(process.env.PROD_MONGODB_URI, {
-  autoIndex: true,
-  reconnectTries: Number.MAX_VALUE,
-  reconnectInterval: 500,
-  poolSize: 50,
-  bufferMaxEntries: 0,
-  keepAlive: 120,
-  useNewUrlParser: true,
-});
+let cachedDb = null;
 
-mongoose.set('useCreateIndex', true);
+function connectToDatabase(uri) {
+  console.log('=> connect to database');
 
-connection
-  .then((db) => db)
-  .catch((err) => {
-    console.log(err);
+  if (cachedDb) {
+    console.log('=> using cached database instance');
+    return Promise.resolve(cachedDb);
+  }
+
+  const connection = mongoose.connect(uri, {
+    autoIndex: true,
+    reconnectTries: Number.MAX_VALUE,
+    reconnectInterval: 500,
+    poolSize: 50,
+    bufferMaxEntries: 0,
+    keepAlive: 120,
+    useNewUrlParser: true,
   });
+
+  mongoose.set('useCreateIndex', true);
+
+  return connection
+    .then((db) => {
+      cachedDb = db;
+      return cachedDb;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+connectToDatabase(process.env.PROD_MONGODB_URI).then((db) => console.log(`connected to db`));
 
 exports.graphqlHandler = server.createHandler({
   cors: {
