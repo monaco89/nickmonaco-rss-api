@@ -16,6 +16,9 @@ provider:
   runtime: nodejs10.x
 functions:
   graphql:
+    environment:
+      SECRET: ${env:SECRET}
+      PROD_MONGODB_URI: ${env:PROD_MONGODB_URI}
     # this is formatted as <FILENAME>.<HANDLER>
     handler: index.graphqlHandler
     events:
