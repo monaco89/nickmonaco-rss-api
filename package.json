@@ -6,10 +6,7 @@
   "author": "Nick Monaco",
   "license": "MIT",
   "scripts": {
-    "build": "yarn prebuild && babel -d ./build ./src",
-    "prebuild": "rm -rf build && mkdir build",
-    "start": "nodemon --exec npx babel-node index.js",
-    "dev": "nodemon --exec npx babel-node local.js",
+    "start": "sls offline start --noTimeout",
     "prettier": "prettier --config ./.prettierrc --write \"**/*.js\"",
     "pretest": "eslint --ignore-path .gitignore .",
     "lint": "yarn prettier --write --check --config ./.prettierrc \"**/*.js\" && eslint --fix ./src"
@@ -25,6 +22,7 @@
     "@babel/preset-env": "^7.10.3",
     "apollo-server": "^2.15.0",
     "apollo-server-lambda": "^2.15.0",
+    "babel-runtime": "^6.26.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
@@ -33,11 +31,14 @@
     "graphql-resolvers": "^0.4.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.19",
-    "mongoose-timestamp": "^0.6.0"
+    "mongoose-timestamp": "^0.6.0",
+    "source-map-support": "^0.5.19"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
+    "babel-plugin-source-map-support": "^2.1.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
     "eslint": "^7.3.0",
     "eslint-plugin-babel": "^5.3.0",
@@ -46,6 +47,10 @@
     "eslint-plugin-promise": "^4.2.1",
     "fs-extra": "^9.0.1",
     "nodemon": "^2.0.4",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "serverless-offline": "^6.4.0",
+    "serverless-webpack": "^5.3.2",
+    "webpack": "^4.43.0",
+    "webpack-node-externals": "^1.7.2"
   }
 }
