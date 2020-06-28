@@ -16,14 +16,11 @@ dotenv.config();
 const app = express();
 app.use(cors());
 
-const SECRET = 'yankees2020Champions';
-
 const getUser = async (req) => {
-  const token = req.headers['token'];
-
+  const token = req.headers['x-token'];
   if (token) {
     try {
-      return await jwt.verify(token, SECRET);
+      return await jwt.verify(token, process.env.SECRET);
     } catch (e) {
       throw new AuthenticationError('Your session expired. Sign in again.');
     }
@@ -44,7 +41,7 @@ const server = new ApolloServer({
           userModel,
           feedModel,
         },
-        secret: SECRET,
+        secret: process.env.SECRET,
       };
     }
   },

@@ -13,7 +13,7 @@ export default {
     },
     feeds: async (parent, args, { models: { feedModel }, me }, info) => {
       if (!me) {
-        throw new AuthenticationError('You are not authenticated');
+        throw new AuthenticationError('You are not logged in.');
       }
       const feeds = await feedModel.find({ user: me.id }).exec();
       return feeds;

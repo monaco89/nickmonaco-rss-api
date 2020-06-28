@@ -12,6 +12,13 @@ export default {
       const user = await userModel.findById({ _id: id }).exec();
       return user;
     },
+  },
+  Mutation: {
+    createUser: async (parent, { name, email, password }, { models: { userModel }, secret }, info) => {
+      const user = await userModel.create({ name, email, password });
+      const token = jwt.sign({ id: user.id }, secret, { expiresIn: 24 * 10 * 50 });
+      return { token };
+    },
     login: async (parent, { email, password }, { models: { userModel }, secret }, info) => {
       const user = await userModel.findOne({ email }).exec();
 
@@ -30,13 +37,6 @@ export default {
       return {
         token,
       };
-    },
-  },
-  Mutation: {
-    createUser: async (parent, { name, email, password }, { models: { userModel }, secret }, info) => {
-      const user = await userModel.create({ name, email, password });
-      const token = jwt.sign({ id: user.id }, secret, { expiresIn: 24 * 10 * 50 });
-      return { token };
     },
   },
   User: {
