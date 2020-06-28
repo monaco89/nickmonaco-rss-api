@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import { ApolloServer, AuthenticationError } from 'apollo-server-lambda';
 
 import schemas from './src/schemas';
-import resolvers from './src/resolvers';
+import resolvers from './src/resolverss';
 
 import userModel from './src/models/user';
 import feedModel from './src/models/feed';
