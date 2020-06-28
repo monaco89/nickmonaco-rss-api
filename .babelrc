@@ -1,5 +1,5 @@
 {
-  "plugins": ["source-map-support", "transform-runtime"],
+  "plugins": ["source-map-support"],
   "presets": [
     [
       "@babel/preset-env",
