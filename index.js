@@ -1,7 +1,7 @@
 import server from './server';
 import initConnection from './dbconnection';
 
-let originDomain = '*';
+const originDomain = process.env.ORIGIN_DOMAIN || '*';
 
 exports.graphqlHandler = (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
@@ -20,16 +20,17 @@ exports.graphqlHandler = (event, context, callback) => {
       console.log('creating handler');
       server.createHandler({
         cors: {
-          origin: '*',
+          origin: originDomain,
           credentials: true,
-          // cors: {
-          //   origin: originDomain,
-          //   credentials: true,
-          //   methods: 'POST, GET, OPTIONS',
-          //   allowedHeaders: ['Content-Type', 'X-Amz-Date', 'Authorization', 'X-Api-Key', 'X-Amz-Security-Token', 'x-token'],
-          // },
-          // endpointURL: '/graphql',
-          // });
+          methods: 'POST, GET, OPTIONS',
+          allowedHeaders: [
+            'Content-Type',
+            'X-Amz-Date',
+            'Authorization',
+            'X-Api-Key',
+            'X-Amz-Security-Token',
+            'x-token',
+          ],
         },
       })(event, context, callback);
     });
