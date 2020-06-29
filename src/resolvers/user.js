@@ -4,23 +4,23 @@ import { AuthenticationError } from 'apollo-server';
 
 export default {
   Query: {
-    user: async (parent, { id }, { models: { userModel }, me }, info) => {
+    user: async (parent, { id }, { models, me }, info) => {
       // ? Reason for being authenticated first
       if (!me) {
-        throw new AuthenticationError('You are not authenticated');
+        throw new AuthenticationError('You are not logged in.');
       }
-      const user = await userModel.findById({ _id: id }).exec();
+      const user = await models.userModel.findById({ _id: id }).exec();
       return user;
     },
   },
   Mutation: {
-    createUser: async (parent, { name, email, password }, { models: { userModel }, secret }, info) => {
-      const user = await userModel.create({ name, email, password });
+    createUser: async (parent, { name, email, password }, { models, secret }, info) => {
+      const user = await models.userModel.create({ name, email, password });
       const token = jwt.sign({ id: user.id }, secret, { expiresIn: 24 * 10 * 50 });
       return { token };
     },
-    login: async (parent, { email, password }, { models: { userModel }, secret }, info) => {
-      const user = await userModel.findOne({ email }).exec();
+    login: async (parent, { email, password }, { models, secret }, info) => {
+      const user = await models.userModel.findOne({ email }).exec();
 
       if (!user) {
         throw new AuthenticationError('Invalid credentials');
@@ -40,8 +40,8 @@ export default {
     },
   },
   User: {
-    feeds: async ({ id }, args, { models: { feedModel } }, info) => {
-      const feeds = await feedModel.find({ user: id }).exec();
+    feeds: async ({ id }, args, { models }, info) => {
+      const feeds = await models.feedModel.find({ user: id }).exec();
       return feeds;
     },
   },
