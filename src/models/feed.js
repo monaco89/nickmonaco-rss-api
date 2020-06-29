@@ -6,7 +6,6 @@ export const FeedSchema = new Schema(
     user: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      // TODO
       required: true,
     },
     name: {

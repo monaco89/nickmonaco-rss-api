@@ -6,6 +6,7 @@ import resolvers from './src/resolvers';
 
 import userModel from './src/models/user';
 import feedModel from './src/models/feed';
+import bookmarkModel from './src/models/bookmark';
 
 const getUser = async (req) => {
   const token = req.headers['x-token'];
@@ -38,6 +39,7 @@ const server = new ApolloServer({
         models: {
           userModel,
           feedModel,
+          bookmarkModel,
         },
         secret: process.env.SECRET,
       };

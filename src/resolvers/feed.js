@@ -27,16 +27,13 @@ export default {
         return feed;
       }
     ),
-    removeFeed: combineResolvers(
-      isAuthenticated,
-      async (parent, { name, rss, icon }, { models: { feedModel } }, info) => {
-        return await feedModel.findByIdAndRemove(id).exec();
-      }
-    ),
+    removeFeed: combineResolvers(isAuthenticated, async (parent, { id }, { models: { feedModel } }, info) => {
+      return await feedModel.findByIdAndRemove(id).exec();
+    }),
   },
   Feed: {
-    user: async ({ author }, args, { models: { userModel } }, info) => {
-      const user = await userModel.findById({ _id: author }).exec();
+    user: async ({ user }, args, { models: { userModel } }, info) => {
+      const user = await userModel.findById({ _id: user }).exec();
       return user;
     },
   },
