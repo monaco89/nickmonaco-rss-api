@@ -20,21 +20,20 @@ export default {
     }),
   },
   Mutation: {
-    createbookmark: combineResolvers(
+    createBookmark: combineResolvers(
       isAuthenticated,
       async (parent, { title, url, content, pubDate }, { models: { bookmarkModel }, me }, info) => {
         const bookmark = await bookmarkModel.create({ title, url, content, pubDate, user: me.id });
         return bookmark;
       }
     ),
-    removebookmark: combineResolvers(isAuthenticated, async (parent, { id }, { models: { bookmarkModel } }, info) => {
+    removeBookmark: combineResolvers(isAuthenticated, async (parent, { id }, { models: { bookmarkModel } }, info) => {
       return await bookmarkModel.findByIdAndRemove(id).exec();
     }),
   },
-  bookmark: {
+  Bookmark: {
     user: async ({ user }, args, { models: { userModel } }, info) => {
-      const user = await userModel.findById({ _id: user }).exec();
-      return user;
+      return await userModel.findById({ _id: user }).exec();
     },
   },
 };

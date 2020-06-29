@@ -33,8 +33,7 @@ export default {
   },
   Feed: {
     user: async ({ user }, args, { models: { userModel } }, info) => {
-      const user = await userModel.findById({ _id: user }).exec();
-      return user;
+      return await userModel.findById({ _id: user }).exec();
     },
   },
 };

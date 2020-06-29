@@ -17,8 +17,8 @@ export default gql`
   }
 
   extend type Query {
-    Bookmarks: [Bookmark!]
-    Bookmark(id: ID!): Bookmark!
+    bookmarks: [Bookmark!]
+    bookmark(id: ID!): Bookmark!
   }
 
   extend type Mutation {
