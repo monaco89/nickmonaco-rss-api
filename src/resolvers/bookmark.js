@@ -4,17 +4,11 @@ import { isAuthenticated } from './authorization';
 
 export default {
   Query: {
-    bookmark: combineResolvers(isAuthenticated, async (parent, { id }, { models: { bookmarkModel }, me }, info) => {
-      if (!me) {
-        throw new AuthenticationError('You are not logged in.');
-      }
+    bookmark: combineResolvers(isAuthenticated, async (parent, { id }, { models: { bookmarkModel } }, info) => {
       const bookmark = await bookmarkModel.findById({ _id: id }).exec();
       return bookmark;
     }),
     bookmarks: combineResolvers(isAuthenticated, async (parent, args, { models: { bookmarkModel }, me }, info) => {
-      if (!me) {
-        throw new AuthenticationError('You are not logged in.');
-      }
       const bookmarks = await bookmarkModel.find({ user: me.id }).exec();
       return bookmarks;
     }),

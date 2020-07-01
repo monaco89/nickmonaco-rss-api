@@ -34,8 +34,4 @@ functions:
       - http:
           path: graphql
           method: any
-          cors: true
-      - http:
-          path: playground
-          method: get
-          cors: true
+          # cors: true

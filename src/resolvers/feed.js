@@ -4,17 +4,11 @@ import { isAuthenticated } from './authorization';
 
 export default {
   Query: {
-    feed: combineResolvers(isAuthenticated, async (parent, { id }, { models: { feedModel }, me }, info) => {
-      if (!me) {
-        throw new AuthenticationError('You are not logged in.');
-      }
+    feed: combineResolvers(isAuthenticated, async (parent, { id }, { models: { feedModel } }, info) => {
       const feed = await feedModel.findById({ _id: id }).exec();
       return feed;
     }),
     feeds: combineResolvers(isAuthenticated, async (parent, args, { models: { feedModel }, me }, info) => {
-      if (!me) {
-        throw new AuthenticationError('You are not logged in.');
-      }
       const feeds = await feedModel.find({ user: me.id }).exec();
       return feeds;
     }),

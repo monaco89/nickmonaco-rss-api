@@ -15,6 +15,7 @@ function initConnection() {
         useFindAndModify: false,
       })
       .then(async (connection) => {
+        // console.log('connection', connection);
         cachedConnection = connection;
         console.log('connected to mongo');
         return cachedConnection;
