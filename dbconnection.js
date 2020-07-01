@@ -6,13 +6,15 @@ let cachedConnection = null;
 function initConnection() {
   if (cachedConnection === null) {
     return mongoose
-      .createConnection(process.env.PROD_MONGODB_URI, {
-        bufferCommands: false,
+      .connect(process.env.PROD_MONGODB_URI, {
+        autoIndex: true,
+        // reconnectTries: Number.MAX_VALUE,
+        reconnectTries: 5,
+        reconnectInterval: 500,
+        poolSize: 50,
         bufferMaxEntries: 0,
+        keepAlive: 120,
         useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-        useFindAndModify: false,
       })
       .then(async (connection) => {
         // console.log('connection', connection);

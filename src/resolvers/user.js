@@ -5,9 +5,7 @@ import { AuthenticationError } from 'apollo-server';
 export default {
   Query: {
     user: async (parent, { id }, { models }, info) => {
-      console.log('model', models.userModel);
       const user = await models.userModel.findById({ _id: id });
-      console.log('user', user);
       return user;
     },
   },
