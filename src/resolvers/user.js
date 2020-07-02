@@ -8,6 +8,12 @@ export default {
       const user = await models.userModel.findById({ _id: id });
       return user;
     },
+    me: async (parent, args, { models, me }) => {
+      if (!me) {
+        return null;
+      }
+      return await models.userModel.findById({ _id: me.id });
+    },
   },
   Mutation: {
     createUser: async (parent, { name, email, password }, { models, secret }, info) => {

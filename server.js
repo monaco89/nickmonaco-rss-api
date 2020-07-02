@@ -15,7 +15,8 @@ const getMe = (req) => {
     try {
       return jwt.verify(token, process.env.SECRET);
     } catch (e) {
-      throw new AuthenticationError('Your session expired. Sign in again.');
+      // throw new AuthenticationError('Your session expired. Sign in again.');
+      return null;
     }
   }
 };
