@@ -16,13 +16,18 @@ export default {
   Mutation: {
     createFeed: combineResolvers(
       isAuthenticated,
-      async (parent, { name, rss, icon }, { models: { feedModel }, me }, info) => {
+      async (parent, { input: { name, rss, icon } }, { models: { feedModel }, me }, info) => {
         const feed = await feedModel.create({ name, rss, icon, enabled: true, user: me.id });
         return feed;
       }
     ),
     removeFeed: combineResolvers(isAuthenticated, async (parent, { id }, { models: { feedModel } }, info) => {
-      return await feedModel.findByIdAndRemove(id).exec();
+      try {
+        await feedModel.findByIdAndRemove(id).exec();
+        return true;
+      } catch (e) {
+        return false;
+      }
     }),
   },
   Feed: {

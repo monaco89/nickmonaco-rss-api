@@ -13,7 +13,7 @@ export default gql`
   input CreateFeedInput {
     name: String!
     rss: String!
-    icon: String!
+    icon: String
   }
 
   extend type Query {
