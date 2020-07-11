@@ -1,10 +1,13 @@
-# GraphQL API for nickmonaco.me/rss
+# GraphQL API for [rss.nickmonaco.me](https://rss.nickmonaco.me)
 
-- Express.js
-- Apollo Server
-- Mongoose
+Serverless GraphQL API using AWS Lambda with Mongoose. 
 
-tbd...
+Client: [React Apollo Client](https://github.com/monaco89/nickmonaco-rss)
+
+# Libraries
+* Apollo Server Lambda, GraphQL
+* Mongoose
+* Serverless
 
 [![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com)
 ![Build Status](https://codebuild.us-east-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiUlh1RzA4Tk85dW9UcnNDWEdCYUhGNFBsRkJWTU5ac1FGNC9kaUQ4dVZTSmlJMm0wZC9TMG1seTh4SHZNWC82WDBsMFVXbkwvbmk5N0dKOURaTnBMRHR3PSIsIml2UGFyYW1ldGVyU3BlYyI6InFkNk5sR1paTFFESlQxU1oiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
