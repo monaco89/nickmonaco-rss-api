@@ -25,13 +25,12 @@ const server = new ApolloServer({
   typeDefs: schemas,
   resolvers,
   introspection: true,
-  // playground: process.env.NODE_ENV === 'dev' ? true : false,
-  playground: {
-    endpoint: '/dev/graphql',
-    // settings: {
-    //   'request.credentials': 'same-origin',
-    // },
-  },
+  // playground: {
+  //   endpoint: '/dev/graphql',
+  //   settings: {
+  //     'request.credentials': 'same-origin',
+  //   },
+  // },
   context: async ({ event, context }) => {
     const me = getMe(event);
 
