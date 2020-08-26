@@ -19,11 +19,11 @@ function initConnection() {
       .then(async (connection) => {
         // console.log('connection', connection);
         cachedConnection = connection;
-        console.log('connected to mongo');
+        // console.log('connected to mongo');
         return cachedConnection;
       });
   } else {
-    console.log('using cached connection');
+    // console.log('using cached connection');
     return Promise.resolve(cachedConnection);
   }
 }

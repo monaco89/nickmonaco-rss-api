@@ -10,14 +10,14 @@ exports.graphqlHandler = (event, context, callback) => {
     event.source === 'serverless-plugin-warmup' ||
     (context.custom && context.custom.source === 'serverless-plugin-warmup')
   ) {
-    console.log('WarmUp - Lambda is warm!');
+    // console.log('WarmUp - Lambda is warm!');
     callback(null, {
       statusCode: 200,
       body: 'warmed',
     });
   } else {
     initConnection().then((connection) => {
-      console.log('creating handler');
+      // console.log('creating handler');
       server.createHandler({
         cors: {
           origin: originDomain,
