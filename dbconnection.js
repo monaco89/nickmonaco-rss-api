@@ -1,12 +1,13 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import { config } from "./src/store/config";
 
-mongoose.set('debug', true);
+mongoose.set("debug", true);
 let cachedConnection = null;
 
 function initConnection() {
   if (cachedConnection === null) {
     return mongoose
-      .connect(process.env.PROD_MONGODB_URI, {
+      .connect(config.env.mongoDBUri, {
         autoIndex: true,
         // reconnectTries: Number.MAX_VALUE,
         reconnectTries: 5,
