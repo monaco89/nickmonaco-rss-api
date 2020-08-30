@@ -12,7 +12,7 @@ const getMe = (req) => {
   if (token) {
     try {
       // Return auth0 token, or jwt token with normal signin
-      return token.startsWith("auth0")
+      return token.startsWith("auth0") || token.startsWith("google-oauth2")
         ? token.split("|")[1]
         : jwt.verify(token, config.env.secret);
     } catch (e) {

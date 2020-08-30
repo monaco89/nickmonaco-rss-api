@@ -1,4 +1,3 @@
-import { AuthenticationError } from "apollo-server";
 import { combineResolvers } from "graphql-resolvers";
 import { isAuthenticated } from "./authorization";
 
@@ -6,16 +5,20 @@ export default {
   Query: {
     feed: combineResolvers(
       isAuthenticated,
-      async (parent, { id }, { models: { feedModel } }, info) => {
+      async (parent, { id }, { models: { feedModel } }) => {
         const feed = await feedModel.findById({ _id: id }).exec();
         return feed;
       }
     ),
     feeds: combineResolvers(
       isAuthenticated,
-      async (parent, args, { models: { feedModel }, me }, info) => {
-        const feeds = await feedModel.find({ user: me.id || me }).exec();
-        return feeds;
+      async (parent, args, { models: { feedModel }, me }) => {
+        try {
+          const feeds = await feedModel.find({ user: me.id || me }).exec();
+          return feeds;
+        } catch (e) {
+          return null;
+        }
       }
     ),
   },
