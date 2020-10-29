@@ -1,5 +1,6 @@
 import { combineResolvers } from "graphql-resolvers";
 import { isAuthenticated } from "./authorization";
+import mongoose from "mongoose";
 
 export default {
   Query: {
@@ -10,17 +11,16 @@ export default {
         return feed;
       }
     ),
-    feeds: combineResolvers(
-      isAuthenticated,
-      async (parent, args, { models: { feedModel }, me }) => {
-        try {
-          const feeds = await feedModel.find({ user: me.id || me }).exec();
-          return feeds;
-        } catch (e) {
-          return null;
-        }
+    feeds: async (parent, args, { models: { feedModel }, me }) => {
+      try {
+        const feeds = (await me)
+          ? feedModel.find({ user: me.id || me }).exec()
+          : feedModel.find({}).exec();
+        return feeds;
+      } catch (e) {
+        return null;
       }
-    ),
+    },
   },
   Mutation: {
     createFeed: combineResolvers(
@@ -36,7 +36,7 @@ export default {
           rss,
           icon,
           enabled: true,
-          user: me.id || me,
+          user: me.id || mongoose.Types.ObjectId(me),
         });
         return feed;
       }
