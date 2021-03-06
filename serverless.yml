@@ -4,7 +4,7 @@ service: nickmonaco-rss-api
 plugins:
   - serverless-webpack
   - serverless-offline
-  - serverless-plugin-warmup
+  # - serverless-plugin-warmup
 
 # serverless-webpack configuration
 # Enable auto-packing of external modules
