@@ -1,8 +1,6 @@
 import { combineResolvers } from "graphql-resolvers";
 import { isAuthenticated } from "./authorization";
 import mongoose from "mongoose";
-import fetch from "node-fetch";
-import convert from "xml-js";
 import Parser from "rss-parser";
 
 export default {
