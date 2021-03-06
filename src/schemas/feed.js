@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server';
+import { gql } from "apollo-server";
 
 export default gql`
   type Feed {
@@ -10,6 +10,25 @@ export default gql`
     user: User!
   }
 
+  type FeedItem {
+    title: String
+    link: String
+    pubDate: String
+    creator: String
+    content: String
+    contentSnippet: String
+    guid: String
+    categories: [String]
+  }
+
+  type FeedOutput {
+    feedUrl: String
+    title: String
+    description: String
+    link: String
+    items: [FeedItem]
+  }
+
   input CreateFeedInput {
     name: String!
     rss: String!
@@ -19,6 +38,7 @@ export default gql`
   extend type Query {
     feeds: [Feed!]
     feed(id: ID!): Feed!
+    fetchFeed(url: String!): FeedOutput
   }
 
   extend type Mutation {
