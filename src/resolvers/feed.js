@@ -3,6 +3,7 @@ import { isAuthenticated } from "./authorization";
 import mongoose from "mongoose";
 import fetch from "node-fetch";
 import convert from "xml-js";
+import Parser from "rss-parser";
 
 export default {
   Query: {
@@ -24,29 +25,35 @@ export default {
       }
     },
     fetchFeed: async (parent, { url }) => {
-      const res = await fetch(url);
-      const xml = await res.text();
-      const json = JSON.parse(
-        convert.xml2json(xml, { compact: true, spaces: 4 })
-      );
-      const channel = json.rss.channel;
-      console.log(json);
+      // Use rss-parser instead
+      const parser = new Parser();
+      const feed = await parser.parseURL(url);
 
-      return {
-        feedUrl: channel.link._text,
-        title: channel.title._text,
-        description: channel.description._text,
-        link: channel.link._text,
-        items: channel.item.map((item) => ({
-          title: item.title._text,
-          link: item.link._text,
-          pubDate: item.pubDate._text,
-          content: item.description._text,
-          // contentSnippet: item.encoded,
-          guid: item.guid._text,
-          categories: item.category.map((cat) => cat._cdata),
-        })),
-      };
+      return feed;
+
+      // const res = await fetch(url);
+      // const xml = await res.text();
+      // const json = JSON.parse(
+      //   convert.xml2json(xml, { compact: true, spaces: 4 })
+      // );
+      // const channel = json.rss.channel;
+      // console.log(json.rss.channel.items[0]);
+
+      // return {
+      //   feedUrl: channel.link._text,
+      //   title: channel.title._text,
+      //   description: channel.description._text,
+      //   link: channel.link._text,
+      //   items: channel.item.map((item) => ({
+      //     title: item.title._text,
+      //     link: item.link._text,
+      //     pubDate: item.pubDate._text,
+      //     content: item.description._text,
+      //     // contentSnippet: item.encoded,
+      //     guid: item.guid._text,
+      //     categories: item.category.map((cat) => cat._cdata),
+      //   })),
+      // };
     },
   },
   Mutation: {
