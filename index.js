@@ -1,3 +1,4 @@
+import "source-map-support/register";
 import server from "./server";
 import initConnection from "./dbconnection";
 import { config } from "./src/store/config";

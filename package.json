@@ -10,7 +10,8 @@
     "dev": "nodemon --exec npx babel-node local.js",
     "prettier": "prettier --config ./.prettierrc --write \"**/*.js\"",
     "pretest": "eslint --ignore-path .gitignore .",
-    "lint": "yarn prettier --write --check --config ./.prettierrc \"**/*.js\" && eslint --fix ./src"
+    "lint": "yarn prettier --write --check --config ./.prettierrc \"**/*.js\" && eslint --fix ./src",
+    "postinstall": "cp -a ../node_modules/source-map-support ./node_modules/source-map-support"
   },
   "husky": {
     "hooks": {
