@@ -11,6 +11,6 @@ phases:
     commands:
       - echo $PROD_MONGODB_URI
       - sls deploy
-cache:
-  paths:
-    - '/node_modules/**/*'
+# cache:
+#   paths:
+#     - '/node_modules/**/*'
