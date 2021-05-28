@@ -1,32 +1,29 @@
-import mongoose from "mongoose";
-import { config } from "./src/store/config";
+import { config } from './src/store/config';
+require('mysql2');
 
-mongoose.set("debug", true);
-let cachedConnection = null;
+const minNum = process.env.ENV === 'local' ? 0 : 20;
+const maxNum = process.env.ENV === 'local' ? 10 : 100;
+const idleTimout = process.env.ENV === 'local' ? 1000 : 30000;
 
-function initConnection() {
-  if (cachedConnection === null) {
-    return mongoose
-      .connect(config.env.mongoDBUri, {
-        autoIndex: true,
-        // reconnectTries: Number.MAX_VALUE,
-        reconnectTries: 5,
-        reconnectInterval: 500,
-        poolSize: 50,
-        bufferMaxEntries: 0,
-        keepAlive: 120,
-        useNewUrlParser: true,
-      })
-      .then(async (connection) => {
-        // console.log('connection', connection);
-        cachedConnection = connection;
-        // console.log('connected to mongo');
-        return cachedConnection;
-      });
-  } else {
-    // console.log('using cached connection');
-    return Promise.resolve(cachedConnection);
-  }
-}
+const dbContext = require('knex')({
+    client: 'mysql2',
+    connection: {
+        host: config.env.proxyendpoint,
+        user: config.env.dbUser,
+        password: config.env.dbPassword,
+        database: config.env.dbName,
+    },
+    pool: {
+        min: minNum, // 5, // from 2
+        max: maxNum, // 30, // from 10
+        createTimeoutMillis: 30000,
+        acquireTimeoutMillis: 30000,
+        idleTimeoutMillis: idleTimout,
+        reapIntervalMillis: 1000,
+        createRetryIntervalMillis: 100,
+        propagateCreateError: true,
+    },
+    debug: false,
+});
 
-export default initConnection;
+export default dbContext;

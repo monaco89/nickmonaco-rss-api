@@ -5,11 +5,12 @@ phases:
     runtime-versions:
       nodejs: 12
     commands:
-      - yarn install
+      - yarn install --frozen-lockfile
       - yarn global add serverless
+      - yarn global add knex
   build:
     commands:
-      - echo $PROD_MONGODB_URI
+      - knex migrate:latest --esm
       - sls deploy
 # cache:
 #   paths:
