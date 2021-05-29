@@ -1,4 +1,4 @@
-import { gql } from "apollo-server";
+import { gql } from 'apollo-server';
 
 export default gql`
   type Feed {
@@ -8,6 +8,7 @@ export default gql`
     icon: String
     enabled: Boolean
     user: User!
+    bookmarks: [Bookmark!]
   }
 
   type FeedItem {

@@ -14,6 +14,7 @@ export default gql`
     url: String!
     content: String
     pubDate: String
+    feedId: Int
   }
 
   extend type Query {

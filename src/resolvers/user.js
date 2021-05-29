@@ -1,6 +1,6 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { AuthenticationError } from "apollo-server";
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { AuthenticationError } from 'apollo-server';
 
 export default {
   Query: {
@@ -19,26 +19,29 @@ export default {
     createUser: async (
       parent,
       { name, email, password },
-      { models, secret },
-      info
+      { models, secret }
     ) => {
-      const user = await models.userModel.create({ name, email, password });
+      const user = await models.userModel.create({
+        name,
+        email,
+        password,
+      });
       const token = jwt.sign({ id: user.id }, secret, {
         expiresIn: 24 * 10 * 50,
       });
       return { token };
     },
-    login: async (parent, { email, password }, { models, secret }, info) => {
+    login: async (parent, { email, password }, { models, secret }) => {
       const user = await models.userModel.findOne({ email }).exec();
 
       if (!user) {
-        throw new AuthenticationError("Invalid credentials");
+        throw new AuthenticationError('Invalid credentials');
       }
 
       const matchPasswords = bcrypt.compareSync(password, user.password);
 
       if (!matchPasswords) {
-        throw new AuthenticationError("Invalid credentials");
+        throw new AuthenticationError('Invalid credentials');
       }
 
       const token = jwt.sign({ id: user.id }, secret, {
