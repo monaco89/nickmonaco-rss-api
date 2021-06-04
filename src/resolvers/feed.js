@@ -1,67 +1,70 @@
 import { combineResolvers } from 'graphql-resolvers';
-import { isAuthenticated } from './authorization';
-import mongoose from 'mongoose';
 import Parser from 'rss-parser';
+import { isAuthenticated } from './authorization';
+import {
+  getFeed,
+  getFeedByUserId,
+  createFeed,
+  deleteFeed,
+} from '../queries/feed';
+import { getUser } from '../queries/user';
+import { handleError } from '../utils';
 
 export default {
-    Query: {
-        feed: combineResolvers(
-            isAuthenticated,
-            async (parent, { id }, { models: { feedModel } }) => {
-                const feed = await feedModel.findById({ _id: id }).exec();
-                return feed;
-            }
-        ),
-        feeds: async (parent, args, { models: { feedModel }, me }) => {
-            try {
-                const feeds = (await me)
-                    ? feedModel.find({ user: me.id || me }).exec()
-                    : feedModel.find({}).exec();
-                return feeds;
-            } catch (e) {
-                return null;
-            }
-        },
-        fetchFeed: async (parent, { url }) => {
-            const parser = new Parser();
-            const feed = await parser.parseURL(url);
+  Query: {
+    feed: combineResolvers(isAuthenticated, async (parent, { id }) => {
+      try {
+        const feed = await getFeed(id);
+        return feed;
+      } catch (err) {
+        handleError(err);
+      }
+    }),
+    feeds: async (parent, args, { me }) => {
+      if (!me) {
+        return null;
+      }
 
-            return feed;
-        },
+      try {
+        const feeds = await getFeedByUserId(me.id);
+        return feeds;
+      } catch (err) {
+        handleError(err);
+      }
     },
-    Mutation: {
-        createFeed: combineResolvers(
-            isAuthenticated,
-            async (
-                parent,
-                { input: { name, rss, icon } },
-                { models: { feedModel }, me },
-                info
-            ) => {
-                const feed = await feedModel.create({
-                    name,
-                    rss,
-                    icon,
-                    enabled: true,
-                    user: me.id || mongoose.Types.ObjectId(me),
-                });
-                return feed;
-            }
-        ),
-        removeFeed: combineResolvers(
-            isAuthenticated,
-            async (parent, { id }, { models: { feedModel } }, info) => {
-                try {
-                    await feedModel.findByIdAndRemove(id).exec();
-                    return true;
-                } catch (e) {
-                    return false;
-                }
-            }
-        ),
+    fetchFeed: async (parent, { url }) => {
+      try {
+        const parser = new Parser();
+        const feed = await parser.parseURL(url);
+
+        return feed;
+      } catch (err) {
+        handleError(err);
+      }
     },
-    Feed: {
-        user: async ({ user }, args, { models: { userModel } }, info) =>
-            await userModel.findById({ _id: user }).exec(),
-    },
+  },
+  Mutation: {
+    createFeed: combineResolvers(
+      isAuthenticated,
+      async (parent, { input: { name, rss, icon } }, { me }) => {
+        try {
+          const feed = await createFeed({ name, rss, icon }, me);
+          return feed;
+        } catch (err) {
+          handleError(err);
+        }
+      }
+    ),
+    removeFeed: combineResolvers(isAuthenticated, async (parent, { id }) => {
+      try {
+        await deleteFeed(id);
+        return true;
+      } catch (err) {
+        handleError(err);
+      }
+    }),
+  },
+  Feed: {
+    user: async ({ user }) => await getUser(user.id),
+  },
 };
