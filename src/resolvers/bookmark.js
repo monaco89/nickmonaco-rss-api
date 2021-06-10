@@ -1,4 +1,3 @@
-// import { AuthenticationError } from 'apollo-server';
 import { combineResolvers } from 'graphql-resolvers';
 import { isAuthenticated } from './authorization';
 import {

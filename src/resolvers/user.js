@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { AuthenticationError } from 'apollo-server';
+import { AuthenticationError } from 'apollo-server-lambda';
 import { getUser, createUser, getUserByEmail } from '../queries/user';
 import { getFeedByUserId } from '../queries/feed';
 import { handleError } from '../utils';

@@ -1,7 +1,7 @@
 import userSchema from './user';
 import feedSchema from './feed';
 import bookmarkSchema from './bookmark';
-import { gql } from 'apollo-server';
+import { gql } from 'apollo-server-lambda';
 
 const linkSchema = gql`
   type Query {

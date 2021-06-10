@@ -1,4 +1,4 @@
-import dbContext from '../dbConnection';
+import dbContext from '../../dbConnection';
 import { mapKeys, camelCase } from 'lodash';
 
 export const getFeedByUserId = (id) =>

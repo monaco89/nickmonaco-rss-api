@@ -4,7 +4,6 @@ module.exports = {
   local: {
     client: 'mysql2',
     connection: {
-      debug: true,
       host: config.env.proxyendpoint,
       user: config.env.dbUser,
       password: config.env.dbPassword,
