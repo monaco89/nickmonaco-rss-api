@@ -9,10 +9,7 @@ plugins:
 # serverless-webpack configuration
 # Enable auto-packing of external modules
 custom:
-  currentStage: ${opt:stage, "local"}
-  serverless-offline:
-    port: 3000
-  #   noPrependStageInUrl: true
+  currentStage: ${opt:stage, "dev"}
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true

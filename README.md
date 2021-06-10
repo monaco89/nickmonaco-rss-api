@@ -19,4 +19,4 @@ Client: [React Apollo Client](https://github.com/monaco89/nickmonaco-rss)
 ## Migrations
 
 `knex migrate:make migration_name --esm` create a knex migration file
-`knex migrate:latest --env environment_name --esm` (local, development, etc.) look in /knexfile.js for configuration for each environment,
+`knex migrate:latest --env environment_name --esm` (local, dev, etc.) look in /knexfile.js for configuration for each environment,

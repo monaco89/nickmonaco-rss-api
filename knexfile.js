@@ -1,7 +1,7 @@
 import { config } from './src/store/config';
 
 module.exports = {
-  local: {
+  dev: {
     client: 'mysql2',
     connection: {
       host: config.env.proxyendpoint,

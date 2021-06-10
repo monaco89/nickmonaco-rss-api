@@ -7,7 +7,7 @@ export const config = {
     nodeEnv: process.env.NODE_ENV,
     secret: process.env.SECRET,
     originDomain: process.env.ORIGIN_DOMAIN || '*',
-    port: process.env.PORT || 8080,
+    port: process.env.PORT || 3306,
     proxyendpoint: process.env.PROXYENDPOINT || '127.0.0.1',
     dbUser: process.env.DBUSER,
     dbPassword: process.env.DBPASSWORD,
