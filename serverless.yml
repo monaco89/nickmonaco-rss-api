@@ -9,6 +9,10 @@ plugins:
 # serverless-webpack configuration
 # Enable auto-packing of external modules
 custom:
+  currentStage: ${opt:stage, "local"}
+  serverless-offline:
+    port: 3000
+  #   noPrependStageInUrl: true
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
@@ -20,12 +24,18 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
   timeout: 60 # optional, in seconds, default is 6
   versionFunctions: false
+  stage: ${self:custom.currentStage}
   environment:
     SECRET: ${env:SECRET, file(./.env.yml):SECRET}
-    PROD_MONGODB_URI: ${env:PROD_MONGODB_URI, file(./.env.yml):PROD_MONGODB_URI}
+    PROXYENDPOINT: ${env:PROXYENDPOINT, file(./.env.yml):PROXYENDPOINT}
+    STAGE: ${self:custom.currentStage}
+    DBNAME: ${env:DBNAME, file(./.env.yml):DBNAME}
+    DBPASSWORD: ${env:DBPASSWORD, file(./.env.yml):DBPASSWORD}
+    DBUSER: ${env:DBUSER, file(./.env.yml):DBUSER}
+    # ORIGIN_DOMAIN: ${env:ORIGIN_DOMAIN, file(./.env.yml):ORIGIN_DOMAIN}
 functions:
   graphql:
     # this is formatted as <FILENAME>.<HANDLER>
@@ -33,5 +43,9 @@ functions:
     events:
       - http:
           path: graphql
-          method: any
-          # cors: true
+          method: post
+          cors: true
+      - http:
+          path: graphql
+          method: get
+          cors: true

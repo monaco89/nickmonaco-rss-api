@@ -3,4 +3,5 @@ export const handleError = (err) => {
   throw new Error(err);
   // throw process.env.ERROR_MESSAGE;
 };
+
 export default handleError;

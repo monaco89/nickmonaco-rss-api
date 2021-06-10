@@ -6,8 +6,7 @@
   "author": "Nick Monaco",
   "license": "MIT",
   "scripts": {
-    "start": "sls offline start --noTimeout",
-    "dev": "nodemon --exec npx babel-node local.js",
+    "start": "sls offline start --stage=local --noTimeout --lambdaPort 4002 --httpPort 4000",
     "prettier": "prettier --config ./.prettierrc --write \"**/*.js\"",
     "pretest": "eslint --ignore-path .gitignore .",
     "lint": "yarn prettier --write --check --config ./.prettierrc \"**/*.js\" && eslint --fix ./src"

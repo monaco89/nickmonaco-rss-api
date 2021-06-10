@@ -23,6 +23,12 @@ const server = new ApolloServer({
   typeDefs: schemas,
   resolvers,
   introspection: true,
+  playground: true,
+  // playground: {
+  //   settings: {
+  //     'request.credentials': 'same-origin',
+  //   },
+  // },
   context: ({ event, context }) => {
     const me = getMe(event);
 
