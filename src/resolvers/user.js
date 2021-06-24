@@ -5,6 +5,11 @@ import { getUser, createUser, getUserByEmail } from '../queries/user';
 import { getFeedByUserId } from '../queries/feed';
 import { handleError } from '../utils';
 
+function generatePasswordHash(password) {
+  const saltRounds = 10;
+  return bcrypt.hash(password, saltRounds);
+}
+
 export default {
   Query: {
     user: async (parent, { id }) => {
@@ -31,10 +36,11 @@ export default {
   Mutation: {
     createUser: async (parent, { name, email, password }, { secret }) => {
       try {
+        const hashed = await generatePasswordHash(password);
         const user = await createUser({
           name,
           email,
-          password,
+          password: hashed,
         });
         const token = jwt.sign({ id: user.id }, secret, {
           expiresIn: 24 * 10 * 50,
@@ -52,6 +58,7 @@ export default {
           throw new AuthenticationError('Invalid credentials');
         }
 
+        // compareSync vs compare?
         const matchPasswords = bcrypt.compareSync(password, user.password);
 
         if (!matchPasswords) {

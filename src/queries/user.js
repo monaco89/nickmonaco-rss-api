@@ -1,4 +1,4 @@
-import dbContext from '../../dbConnection';
+import dbContext from '../../dbconnection';
 import { mapKeys, camelCase } from 'lodash';
 
 export const getUser = (id) =>
@@ -15,7 +15,7 @@ export const getUserByEmail = (email) =>
 
 export const createUser = ({ name, email, password }) =>
   dbContext('users').insert({
-    name,
+    // name,
     email,
     password,
   });
