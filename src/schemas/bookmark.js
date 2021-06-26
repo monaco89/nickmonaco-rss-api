@@ -23,7 +23,7 @@ export default gql`
   }
 
   extend type Mutation {
-    createBookmark(input: CreateBookmarkInput!): Bookmark!
+    createBookmark(input: CreateBookmarkInput!): Int
     removeBookmark(id: ID!): Boolean
   }
 `;

@@ -19,7 +19,7 @@ export const createBookmark = ({ title, url, content, pubDate }, me) =>
     url,
     content,
     pubDate,
-    user: me.id || me,
+    user_id: me.id || me,
   });
 
 export const deleteBookmark = (id) =>

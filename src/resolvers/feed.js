@@ -49,7 +49,7 @@ export default {
       async (parent, { input: { name, rss, icon } }, { me }) => {
         try {
           const feed = await createFeed({ name, rss, icon }, me);
-          return feed;
+          return feed[0];
         } catch (err) {
           handleError(err);
         }
@@ -66,5 +66,6 @@ export default {
   },
   Feed: {
     user: async ({ user }) => await getUser(user.id),
+    // TODO Bookmarks
   },
 };

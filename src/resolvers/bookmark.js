@@ -45,7 +45,7 @@ export default {
             },
             me
           );
-          return bookmark;
+          return bookmark[0];
         } catch (err) {
           handleError(err);
         }

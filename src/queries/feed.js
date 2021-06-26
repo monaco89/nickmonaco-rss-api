@@ -19,7 +19,7 @@ export const createFeed = ({ name, rss, icon }, me) =>
     rss,
     icon,
     enabled: true,
-    user: me.id,
+    user_id: me.id,
   });
 
 export const deleteFeed = (id) => dbContext('feeds').where({ id }).del();

@@ -43,7 +43,7 @@ export default gql`
   }
 
   extend type Mutation {
-    createFeed(input: CreateFeedInput!): Feed!
+    createFeed(input: CreateFeedInput!): Int
     removeFeed(id: ID!): Boolean
   }
 `;
