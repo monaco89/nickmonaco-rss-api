@@ -24,6 +24,6 @@ export default gql`
 
   extend type Mutation {
     createBookmark(input: CreateBookmarkInput!): Int
-    removeBookmark(id: ID!): Boolean
+    removeBookmark(url: String!): Boolean
   }
 `;

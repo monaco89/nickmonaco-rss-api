@@ -15,7 +15,7 @@ exports.up = async function (knex) {
     table.string('title').notNullable();
     table.string('url').notNullable();
     table.string('content');
-    table.boolean('pubDate');
+    table.string('pubDate');
     table.integer('user_id').unsigned();
     table.foreign('user_id').references('id').inTable('users');
     table.integer('feed_id').unsigned();

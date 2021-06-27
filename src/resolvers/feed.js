@@ -3,14 +3,28 @@ import Parser from 'rss-parser';
 import { isAuthenticated } from './authorization';
 import {
   getFeed,
-  getFeedByUserId,
+  // getFeedByUserId,
   createFeed,
   deleteFeed,
+  getAllFeed,
 } from '../queries/feed';
 import { getUser } from '../queries/user';
+import { findBookmark } from '../queries/bookmark';
 import { handleError } from '../utils';
 
 export default {
+  FeedItem: {
+    bookmarked: async (item, args, { me }) => {
+      if (!me) {
+        return false;
+      }
+
+      const booked = await findBookmark(item.link);
+      console.log('booked', booked);
+
+      return booked.length > 0;
+    },
+  },
   Query: {
     feed: combineResolvers(isAuthenticated, async (parent, { id }) => {
       try {
@@ -21,12 +35,13 @@ export default {
       }
     }),
     feeds: async (parent, args, { me }) => {
-      if (!me) {
-        return null;
-      }
+      // if (!me) {
+      //   return null;
+      // }
 
       try {
-        const feeds = await getFeedByUserId(me.id);
+        // const feeds = await getFeedByUserId(me.id);
+        const feeds = await getAllFeed();
         return feeds;
       } catch (err) {
         handleError(err);

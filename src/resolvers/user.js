@@ -59,13 +59,13 @@ export default {
         }
 
         // compareSync vs compare?
-        const matchPasswords = bcrypt.compareSync(password, user.password);
+        const matchPasswords = bcrypt.compareSync(password, user[0].password);
 
         if (!matchPasswords) {
           throw new AuthenticationError('Invalid credentials');
         }
 
-        const token = jwt.sign({ id: user.id }, secret, {
+        const token = jwt.sign({ id: user[0].id }, secret, {
           expiresIn: 24 * 10 * 50,
         });
 

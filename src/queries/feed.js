@@ -1,10 +1,15 @@
-import dbContext from '../../dbConnection';
 import { mapKeys, camelCase } from 'lodash';
+import dbContext from '../../dbconnection';
 
 export const getFeedByUserId = (id) =>
   dbContext('feeds')
     .select()
     .where('user_id', id)
+    .then((res) => res.map((data) => mapKeys(data, (v, k) => camelCase(k))));
+
+export const getAllFeed = () =>
+  dbContext('feeds')
+    .select()
     .then((res) => res.map((data) => mapKeys(data, (v, k) => camelCase(k))));
 
 export const getFeed = (id) =>

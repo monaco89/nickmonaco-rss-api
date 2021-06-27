@@ -4,7 +4,7 @@ import {
   getBookmark,
   getBookmarksByUserId,
   createBookmark,
-  deleteBookmark,
+  deleteBookmarkByURL,
 } from '../queries/bookmark';
 import { getUser } from '../queries/user';
 import { handleError } from '../utils';
@@ -34,12 +34,12 @@ export default {
   Mutation: {
     createBookmark: combineResolvers(
       isAuthenticated,
-      async (parent, { title, url, content, pubDate }, { me }) => {
+      async (parent, { input: { title, url, content, pubDate } }, { me }) => {
         try {
           const bookmark = await createBookmark(
             {
-              title,
-              url,
+              title: title || '',
+              url: url || '',
               content,
               pubDate,
             },
@@ -53,12 +53,15 @@ export default {
     ),
     removeBookmark: combineResolvers(
       isAuthenticated,
-      async (parent, { id }) => {
+      async (parent, { url }, { me }) => {
         try {
-          return await deleteBookmark(id);
+          await deleteBookmarkByURL(url, me);
+          return true;
         } catch (err) {
           handleError(err);
         }
+
+        return false;
       }
     ),
   },

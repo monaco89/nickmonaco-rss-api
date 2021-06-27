@@ -1,5 +1,5 @@
-import dbContext from '../../dbConnection';
 import { mapKeys, camelCase } from 'lodash';
+import dbContext from '../../dbconnection';
 
 export const getBookmark = (id) =>
   dbContext('bookmarks')
@@ -22,5 +22,8 @@ export const createBookmark = ({ title, url, content, pubDate }, me) =>
     user_id: me.id || me,
   });
 
-export const deleteBookmark = (id) =>
-  dbContext('bookmarks').where({ id }).del();
+export const deleteBookmarkByURL = (url, me) =>
+  dbContext('bookmarks').where({ url, user_id: me.id }).del();
+
+export const findBookmark = (itemURL) =>
+  dbContext('bookmarks').select().where({ url: itemURL });

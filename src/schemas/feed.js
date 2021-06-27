@@ -20,6 +20,7 @@ export default gql`
     contentSnippet: String
     guid: String
     categories: [String]
+    bookmarked: Boolean
   }
 
   type FeedOutput {
